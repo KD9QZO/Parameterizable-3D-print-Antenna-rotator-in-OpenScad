@@ -20,31 +20,79 @@
  - menu File/Export/ExportDXF
 ----------------- Input parameter ---------------------------------*/
 
-    RotatorMountingPointsDiameter   =  10.2     ;// it must be sufficiently robust
-    AntMountScrewRadius             =   0       ;// 0 for auto, if greater than zero, the value is used (18.5 first version dimension)
-    FlangeScrewDiameter             =   4       ;// 4 optimal size
-    ScrewHoleTolerance              =   0.2     ;// it creates clearance and compensates for the inaccuracy of the 3d printer
-    InAxisDiameter                  =   8.0     ;// main internal axes
-    MotorMountType                  =   2       ;// [1-2] part #8 | type 1 from unknown parkside | motor type 2 from PARKSIDE PBSA 12 D4 (max 28 Nm, 350/1 300 RPM)
-    MotorMountZshift                =   8       ;// in mm, expand part #8 in Z
-    MotorAxisDiameter               =  13       ;// according to the selected motor - part #6
-    MotorShaftFlattening            =   0       ;// in mm, if need - part #6
-    MotorShaftScrew                 =   3       ;// in mm, if need - part #6, 0 for disable
-    SmallNumberOfTeeth              =  12       ;// smaller gear
-    VerticalSpacing                 =   3       ;// between gears
-    PlainBearingHeight              =   2.1     ;// smaller than VerticalSpacing
-    PotentiometerAxisDiameter       =   6.34    ;// according to the selected potentiometer
-    PotentiometerMountAxisDiameter  =  10.5     ;// according to the selected potentiometer
-    PotentiometerExpand             =   6+2       ;// number of  teeth
-    BodyPrimaryExpander             =   1.25    ;// bigger than 1.2
-    BodySecondExpander              =   1.4     ;// bigger than 1.2
-    IndentedDiameter                =   7       ;// part #1
-    EndstopRotate                   = 165       ;// do not change
-    CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer = 390   ;// I recommend not to change, because not space in small design
-    TorqueMountingPoints            = 0        ;// [0] only for measure
-    DXFexport                       =   0       ;// [0-1] off/on for part #0 and #13
-    PartNumber                      =    -13       ;// export parts [0-13], preview all [negative value]
-    
+
+RotatorMountingPointsDiameter   =  10.2     ;// it must be sufficiently robust
+
+
+AntMountScrewRadius             =   0       ;// 0 for auto, if greater than zero, the value is used (18.5 first version dimension)
+
+
+FlangeScrewDiameter             =   4       ;// 4 optimal size
+
+
+ScrewHoleTolerance              =   0.2     ;// it creates clearance and compensates for the inaccuracy of the 3d printer
+
+
+InAxisDiameter                  =   8.0     ;// main internal axes
+
+// [1-2] part #8 | type 1 from unknown parkside | motor type 2 from PARKSIDE PBSA 12 D4 (max 28 Nm, 350/1 300 RPM)
+MotorMountType = 2;
+
+// in mm, expand part #8 in Z
+MotorMountZshift = 8;
+
+
+MotorAxisDiameter =  13       ;// according to the selected motor - part #6
+
+
+MotorShaftFlattening =   0       ;// in mm, if need - part #6
+
+
+MotorShaftScrew =   3       ;// in mm, if need - part #6, 0 for disable
+
+// smaller gear
+SmallNumberOfTeeth = 12;
+
+// between gears
+VerticalSpacing = 3;
+
+// smaller than VerticalSpacing
+PlainBearingHeight = 2.1;
+
+
+PotentiometerAxisDiameter       =   6.34    ;// according to the selected potentiometer
+
+
+PotentiometerMountAxisDiameter  =  10.5     ;// according to the selected potentiometer
+
+
+PotentiometerExpand             =   6+2       ;// number of  teeth
+
+
+BodyPrimaryExpander             =   1.25    ;// bigger than 1.2
+
+
+BodySecondExpander              =   1.4     ;// bigger than 1.2
+
+
+IndentedDiameter                =   7       ;// part #1
+
+
+EndstopRotate                   = 165       ;// do not change
+
+
+CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer = 390   ;// I recommend not to change, because not space in small design
+
+
+TorqueMountingPoints            = 0        ;// [0] only for measure
+
+
+DXFexport                       =   0       ;// [0-1] off/on for part #0 and #13
+
+// export parts [0-13], preview all [negative value]
+PartNumber = -13;
+
+
 // ----------------- Small size---------------------------------
     
 //    AntMountScrewDiameter           =   6       ;// it must be sufficiently robust  (>6)
@@ -728,38 +776,33 @@ if(PartNumber ==7||PartNumber <-0){
     }
 }
 
-// 8
-if(PartNumber ==8 && CircularPitch>CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer){
-    MotorMount(MotorMountType,MotorMountZshift);    
-    translate([0,-3,0]) mirror([0,1,0]) MotorMount(MotorMountType,MotorMountZshift);    
+/* ---[ Part #8 ]--- */
+if ((PartNumber == 8) && (CircularPitch > CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer)) {
+	MotorMount(MotorMountType, MotorMountZshift);
+	translate([0, -3, 0]) mirror([0, 1, 0]) MotorMount(MotorMountType, MotorMountZshift);
 }
-if(PartNumber <0 && CircularPitch>CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer){
-    translate([PitchRadiusBig+PitchRadiusSmall,0,-FirstHeight-VerticalSpacing-FirstHeight/TransferRatio*1.5-FirstHeight/TransferRatio-2*FirstHeight/TransferRatio/2-4*VerticalSpacing-PlainBearingHeight-3*BoxThickness]) rotate([180,0,180]){
-        MotorMount(MotorMountType,MotorMountZshift);
-        %translate([0,0,MotorMountZshift]) rotate([180,0,0])cylinder(h=23, d=MotorAxisDiameter, center=false);
-    }
+if ((PartNumber < 0) && (CircularPitch > CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer)) {
+	translate([PitchRadiusBig + PitchRadiusSmall, 0, -FirstHeight - VerticalSpacing - FirstHeight / TransferRatio * 1.5 - FirstHeight / TransferRatio - 2 * FirstHeight / TransferRatio / 2 - 4 * VerticalSpacing - PlainBearingHeight - 3 * BoxThickness]) rotate([180, 0, 180]) {
+		MotorMount(MotorMountType, MotorMountZshift);
+		%translate([0, 0, MotorMountZshift]) rotate([180, 0, 0])cylinder(h = 23, d = MotorAxisDiameter, center = false);
+	}
 }
 
-// 9
-if(PartNumber ==9){
-        difference(){
-            if(CircularPitch>CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer){
-                translate([-PitchRadiusBig-PitchRadiusSmall,0,])
-                    cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing, d=2.0*InAxisDiameter, center=false, $fn=60);
-            }else{
-                translate([-PitchRadiusBig-PitchRadiusSmall,0,0])
-                    cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing, d=1.5*InAxisDiameter,center=false, $fn=60);
-            }
-            // - In axis
-            translate([-PitchRadiusBig-PitchRadiusSmall,0,-1])
-                cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing+2, d=InAxisDiameter,center=false, $fn=60);
-        }
-    translate([3*InAxisDiameter,0,0])
-        difference(){
-            if(CircularPitch>CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer){
-                translate([-PitchRadiusBig-PitchRadiusSmall,0,0])
-                    cylinder(h=FirstHeight/TransferRatio+2*FirstHeight/TransferRatio/2+3*VerticalSpacing, d=2.0*InAxisDiameter, center=false, $fn=60);
-            }else{
+/* ---[ Part #9 ]--- */
+if (PartNumber == 9) {
+	difference() {
+		if (CircularPitch > CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer) {
+			translate([-PitchRadiusBig-PitchRadiusSmall,0,]) cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing, d=2.0*InAxisDiameter, center=false, $fn=60);
+		} else {
+			translate([-PitchRadiusBig-PitchRadiusSmall,0,0]) cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing, d=1.5*InAxisDiameter,center=false, $fn=60);
+		}
+		// - In axis
+		translate([-PitchRadiusBig-PitchRadiusSmall,0,-1]) cylinder(h=FirstHeight/TransferRatio/2+VerticalSpacing+2, d=InAxisDiameter,center=false, $fn=60);
+	}
+	translate([3*InAxisDiameter,0,0]) difference() {
+		if(CircularPitch>CircularPitchLimitUnderWhichDisableEndstopAndPotetniometer){
+			translate([-PitchRadiusBig-PitchRadiusSmall,0,0]) cylinder(h=FirstHeight/TransferRatio+2*FirstHeight/TransferRatio/2+3*VerticalSpacing, d=2.0*InAxisDiameter, center=false, $fn=60);
+		} else {
                 translate([-PitchRadiusBig-PitchRadiusSmall,0,0])
                     cylinder(h=FirstHeight/TransferRatio+2*FirstHeight/TransferRatio/2+3*VerticalSpacing, d=1.5*InAxisDiameter,center=false, $fn=60);
             }
@@ -1666,27 +1709,19 @@ module gear_shape (
 	}
 }
 
-module involute_gear_tooth (
-	pitch_radius,
-	root_radius,
-	base_radius,
-	outer_radius,
-	half_thick_angle,
-	involute_facets)
-{
-	min_radius = max (base_radius,root_radius);
+module involute_gear_tooth(pitch_radius, root_radius, base_radius, outer_radius, half_thick_angle, involute_facets) {
+	min_radius = max(base_radius, root_radius);
 
-	pitch_point = involute (base_radius, involute_intersect_angle (base_radius, pitch_radius));
-	pitch_angle = atan2 (pitch_point[1], pitch_point[0]);
+	pitch_point = involute(base_radius, involute_intersect_angle(base_radius, pitch_radius));
+	pitch_angle = atan2(pitch_point[1], pitch_point[0]);
 	centre_angle = pitch_angle + half_thick_angle;
 
-	start_angle = involute_intersect_angle (base_radius, min_radius);
-	stop_angle = involute_intersect_angle (base_radius, outer_radius);
+	start_angle = involute_intersect_angle(base_radius, min_radius);
+	stop_angle = involute_intersect_angle(base_radius, outer_radius);
 
-	res=(involute_facets!=0)?involute_facets:($fn==0)?5:$fn/4;
+	res = (involute_facets != 0) ? involute_facets : ($fn == 0) ? 5 : $fn / 4;
 
-	union ()
-	{
+	union() {
 		for (i=[1:res])
 		assign (
 			point1=involute (base_radius,start_angle+(stop_angle - start_angle)*(i-1)/res),
@@ -1706,61 +1741,54 @@ module involute_gear_tooth (
 	}
 }
 
+
+
 // Mathematical Functions
 //===============
 
 // Finds the angle of the involute about the base radius at the given distance (radius) from it's center.
-//source: http://www.mathhelpforum.com/math-help/geometry/136011-circle-involute-solving-y-any-given-x.html
-
-function involute_intersect_angle (base_radius, radius) = sqrt (pow (radius/base_radius, 2) - 1) * 180 / pi;
+//   source: http://www.mathhelpforum.com/math-help/geometry/136011-circle-involute-solving-y-any-given-x.html
+function involute_intersect_angle(base_radius, radius) = sqrt(pow(radius / base_radius, 2) - 1) * 180 / pi;
 
 // Calculate the involute position for a given base radius and involute angle.
-
-function rotated_involute (rotate, base_radius, involute_angle) =
-[
-	cos (rotate) * involute (base_radius, involute_angle)[0] + sin (rotate) * involute (base_radius, involute_angle)[1],
-	cos (rotate) * involute (base_radius, involute_angle)[1] - sin (rotate) * involute (base_radius, involute_angle)[0]
+function rotated_involute(rotate, base_radius, involute_angle) = [
+	cos(rotate) * involute(base_radius, involute_angle)[0] + sin(rotate) * involute(base_radius, involute_angle)[1],
+	cos(rotate) * involute(base_radius, involute_angle)[1] - sin(rotate) * involute(base_radius, involute_angle)[0]
 ];
 
-function mirror_point (coord) =
-[
+function mirror_point(coord) = [
 	coord[0],
 	-coord[1]
 ];
 
-function rotate_point (rotate, coord) =
-[
-	cos (rotate) * coord[0] + sin (rotate) * coord[1],
-	cos (rotate) * coord[1] - sin (rotate) * coord[0]
+function rotate_point(rotate, coord) = [
+	cos(rotate) * coord[0] + sin(rotate) * coord[1],
+	cos(rotate) * coord[1] - sin(rotate) * coord[0]
 ];
 
-function involute (base_radius, involute_angle) =
-[
-	base_radius*(cos (involute_angle) + involute_angle*pi/180*sin (involute_angle)),
-	base_radius*(sin (involute_angle) - involute_angle*pi/180*cos (involute_angle))
+function involute (base_radius, involute_angle) = [
+	base_radius * (cos(involute_angle) + involute_angle * pi / 180 * sin(involute_angle)),
+	base_radius * (sin(involute_angle) - involute_angle * pi / 180 * cos(involute_angle))
 ];
+
 
 
 // Test Cases
 //===============
 
-module test_gears()
-{
-	translate([17,-15])
-	{
+module test_gears() {
+	translate([17,-15]) {
 		gear (number_of_teeth=17,
 			circular_pitch=500,
 			circles=8);
 
 		rotate ([0,0,360*4/17])
-		translate ([39.088888,0,0])
-		{
+		translate ([39.088888,0,0]) {
 			gear (number_of_teeth=11,
 				circular_pitch=500,
 				hub_diameter=0,
 				rim_width=65);
-			translate ([0,0,8])
-			{
+			translate ([0,0,8]) {
 				gear (number_of_teeth=6,
 					circular_pitch=300,
 					hub_diameter=0,
@@ -1837,90 +1865,82 @@ module test_gears()
 	}
 }
 
-module meshing_double_helix ()
-{
-	test_double_helix_gear ();
+module meshing_double_helix() {
+	test_double_helix_gear();
 
-	mirror ([0,1,0])
-	translate ([58.33333333,0,0])
-	test_double_helix_gear (teeth=13,circles=6);
+	mirror([0,1,0]) translate([58.33333333,0,0]) test_double_helix_gear(teeth = 13, circles = 6);
 }
 
-module test_double_helix_gear (
-	teeth=17,
-	circles=8)
-{
-	//double helical gear
+module test_double_helix_gear(teeth = 17, circles = 8) {
+	// double helical gear
 	{
 		twist=200;
 		height=20;
 		pressure_angle=30;
 
-		gear (number_of_teeth=teeth,
-			circular_pitch=700,
-			pressure_angle=pressure_angle,
-			clearance = 0.2,
-			gear_thickness = height/2*0.5,
-			rim_thickness = height/2,
-			rim_width = 5,
-			hub_thickness = height/2*1.2,
-			hub_diameter=15,
-			bore_diameter=5,
-			circles=circles,
-			twist=twist/teeth);
-		mirror([0,0,1])
-		gear (number_of_teeth=teeth,
-			circular_pitch=700,
-			pressure_angle=pressure_angle,
-			clearance = 0.2,
-			gear_thickness = height/2,
-			rim_thickness = height/2,
-			rim_width = 5,
-			hub_thickness = height/2,
-			hub_diameter=15,
-			bore_diameter=5,
-			circles=circles,
-			twist=twist/teeth);
+		gear(
+				number_of_teeth=teeth,
+				circular_pitch=700,
+				pressure_angle=pressure_angle,
+				clearance = 0.2,
+				gear_thickness = height/2*0.5,
+				rim_thickness = height/2,
+				rim_width = 5,
+				hub_thickness = height/2*1.2,
+				hub_diameter=15,
+				bore_diameter=5,
+				circles=circles,
+				twist=twist/teeth);
+		mirror([0,0,1]) gear(
+				number_of_teeth=teeth,
+				circular_pitch=700,
+				pressure_angle=pressure_angle,
+				clearance = 0.2,
+				gear_thickness = height/2,
+				rim_thickness = height/2,
+				rim_width = 5,
+				hub_thickness = height/2,
+				hub_diameter=15,
+				bore_diameter=5,
+				circles=circles,
+				twist=twist/teeth);
 	}
 }
 
-module test_backlash ()
-{
+module test_backlash() {
 	backlash = 2;
 	teeth = 15;
 
-	translate ([-29.166666,0,0])
-	{
-		translate ([58.3333333,0,0])
-		rotate ([0,0,-360/teeth/4])
-		gear (
-			number_of_teeth = teeth,
-			circular_pitch=700,
-			gear_thickness = 12,
-			rim_thickness = 15,
-			rim_width = 5,
-			hub_thickness = 17,
-			hub_diameter=15,
-			bore_diameter=5,
-			backlash = 2,
-			circles=8);
+	translate([-29.166666,0,0]) {
+		translate([58.3333333,0,0]) rotate([0,0,-360/teeth/4])
+				gear(
+						number_of_teeth = teeth,
+						circular_pitch=700,
+						gear_thickness = 12,
+						rim_thickness = 15,
+						rim_width = 5,
+						hub_thickness = 17,
+						hub_diameter=15,
+						bore_diameter=5,
+						backlash = 2,
+						circles=8
+				);
 
-		rotate ([0,0,360/teeth/4])
-		gear (
-			number_of_teeth = teeth,
-			circular_pitch=700,
-			gear_thickness = 12,
-			rim_thickness = 15,
-			rim_width = 5,
-			hub_thickness = 17,
-			hub_diameter=15,
-			bore_diameter=5,
-			backlash = 2,
-			circles=8);
+		rotate([0, 0, 360 / teeth / 4])
+				gear(
+						number_of_teeth = teeth,
+						circular_pitch=700,
+						gear_thickness = 12,
+						rim_thickness = 15,
+						rim_width = 5,
+						hub_thickness = 17,
+						hub_diameter=15,
+						bore_diameter=5,
+						backlash = 2,
+						circles=8
+				);
 	}
 
-	color([0,0,128,0.5])
-	translate([0,0,-5])
-	cylinder ($fn=20,r=backlash / 4,h=25);
+	color([0, 0, 128, 0.5]) translate([0, 0, -5]) cylinder($fn = 20, r = backlash / 4, h = 25);
 }
 
