@@ -1,0 +1,16 @@
+#
+# .gitignore
+#
+
+## BACKUP & TEMPORARY FILES ##
+
+*~
+*.bak
+*.tmp
+*.swp
+
+
+## Non-STL 3D Objects ##
+
+*.3mf
+*.obj
