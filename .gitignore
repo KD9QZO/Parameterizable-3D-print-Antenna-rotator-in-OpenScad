@@ -14,3 +14,8 @@
 
 *.3mf
 *.obj
+
+
+## STL Preview Files ##
+
+**/preview.stl
